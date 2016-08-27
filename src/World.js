@@ -23,4 +23,8 @@ export default class World {
   isAlive(cell) {
     return _.some(this.livingCells(), {x: cell.x, y: cell.y})
   }
+
+  isDead(cell) {
+    return !this.isAlive(cell)
+  }
 }
