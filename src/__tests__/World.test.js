@@ -26,4 +26,13 @@ describe('World', function() {
       ])
     })
   })
+
+  describe('#isAlive', function() {
+    it('returns if the given cell is alive', function() {
+      const world = new World([new Cell(1, 2), new Cell(2, 2)])
+
+      expect(world.isAlive(new Cell(1, 2))).to.be.true
+      expect(world.isAlive(new Cell(3, 2))).to.be.false
+    })
+  })
 })

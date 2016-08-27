@@ -19,4 +19,8 @@ export default class World {
     .uniqWith(_.isEqual)
     .value()
   }
+
+  isAlive(cell) {
+    return _.some(this.livingCells(), {x: cell.x, y: cell.y})
+  }
 }
