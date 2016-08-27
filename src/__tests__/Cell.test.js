@@ -1,7 +1,6 @@
 
-import _ from 'lodash'
-
 import Cell from '../Cell'
+import {sortedCells} from './utils'
 
 describe('Cell', function() {
   it('provides access to coordinates', function() {
@@ -16,7 +15,7 @@ describe('Cell', function() {
       const cell = new Cell(1, 2)
 
       const surroundings = cell.surroundings()
-      expect(_.sortBy(surroundings, ['x', 'y'])).to.deep.equal([
+      expect(sortedCells(surroundings)).to.deep.equal([
         new Cell(0, 1), new Cell(0, 2), new Cell(0, 3),
         new Cell(1, 1), new Cell(1, 2), new Cell(1, 3),
         new Cell(2, 1), new Cell(2, 2), new Cell(2, 3),
