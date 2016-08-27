@@ -10,6 +10,19 @@ describe('Cell', function() {
     expect(cell.y).to.eql(3)
   })
 
+  describe('#neighbours', function() {
+    it('returns array of adjacent cells', function() {
+      const cell = new Cell(1, 2)
+
+      const neighbours = cell.neighbours()
+      expect(sortedCells(neighbours)).to.deep.equal([
+        new Cell(0, 1), new Cell(0, 2), new Cell(0, 3),
+        new Cell(1, 1), new Cell(1, 3),
+        new Cell(2, 1), new Cell(2, 2), new Cell(2, 3),
+      ])
+    })
+  })
+
   describe('#surroundings', function() {
     it('returns array of all adjacent cells and this cell', function() {
       const cell = new Cell(1, 2)

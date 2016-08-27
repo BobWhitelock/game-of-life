@@ -9,6 +9,10 @@ export default class Cell {
     this.y = y
   }
 
+  neighbours() {
+    return _.reject(this.surroundings(), {x: this.x, y: this.y})
+  }
+
   surroundings() {
     return _.flatMap(COORD_DIFFS, x => {
       return _.map(COORD_DIFFS, y => {
