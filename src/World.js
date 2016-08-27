@@ -1,6 +1,8 @@
 
 import _ from 'lodash'
 
+import Cell from 'Cell'
+
 const COORD_DIFFS = [-1, 0, 1]
 
 export default class World {
@@ -19,7 +21,7 @@ export default class World {
     .map(cell => {
       return _.map(COORD_DIFFS, x => {
         return _.map(COORD_DIFFS, y => {
-          return {x: cell.x + x, y: cell.y + y}
+          return new Cell(cell.x + x, cell.y + y)
         })
       })
     })
