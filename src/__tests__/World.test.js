@@ -1,4 +1,6 @@
 
+import _ from 'lodash'
+
 import World from '../World'
 
 describe('World', function() {
@@ -10,4 +12,20 @@ describe('World', function() {
       expect(world.livingCells()).to.deep.equal(cells)
     })
   })
+
+  describe('#frontier', function() {
+    context('when one living cell', function() {
+      it('returns the frontier', function() {
+        const world = new World([{x: 1, y: 2}])
+
+        const frontier = world.frontier()
+        expect(_.sortBy(frontier, ['x', 'y'])).to.deep.equal([
+            {x: 0, y: 1}, {x: 0, y: 2}, {x: 0, y: 3},
+            {x: 1, y: 1}, {x: 1, y: 2}, {x: 1, y: 3},
+            {x: 2, y: 1}, {x: 2, y: 2}, {x: 2, y: 3},
+        ])
+      })
+    })
+  })
+
 })
