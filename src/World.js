@@ -1,9 +1,30 @@
 
 import _ from 'lodash'
 
+import Cell from 'Cell'
+
 export default class World {
   constructor(livingCells) {
+    this._validateCells(livingCells)
+
     this._livingCells = livingCells
+  }
+
+  _validateCells(cells) {
+    if (this._notArray(cells) || this._containsNonCells(cells)) {
+      const prettyPrintedCells = JSON.stringify(cells)
+      throw new Error(
+        `World must be passed an array of Cells but received: ${prettyPrintedCells}`
+      )
+    }
+  }
+
+  _notArray(cells) {
+    return !_.isArray(cells)
+  }
+
+  _containsNonCells(cells) {
+    return _.some(cells, cell => !(cell instanceof Cell))
   }
 
   livingCells() {

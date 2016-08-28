@@ -4,6 +4,20 @@ import World from '../World'
 import {sortedCells} from './utils'
 
 describe('World', function() {
+  it('raises an exception if not passed an array', function() {
+    const createWorld = () => {
+      new World(new Cell(1, 2)) // eslint-disable-line no-new
+    }
+    expect(createWorld).to.throw(Error)
+  })
+
+  it('raise an exception if passed array does not contain only cells', function() {
+    const createWorld = () => {
+      new World([new Cell(1, 2), undefined]) // eslint-disable-line no-new
+    }
+    expect(createWorld).to.throw(Error)
+  })
+
   describe('#livingCells', function() {
     it('returns array of passed in living cells', function() {
       const cells = [new Cell(1, 2), new Cell(2, 4)]
