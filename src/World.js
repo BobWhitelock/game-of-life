@@ -27,4 +27,11 @@ export default class World {
   isDead(cell) {
     return !this.isAlive(cell)
   }
+
+  livingNeighbours(cell) {
+    return _.filter(
+      cell.neighbours(),
+      neighbour => this.isAlive(neighbour)
+    ).length
+  }
 }
