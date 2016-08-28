@@ -18,5 +18,13 @@ describe('ConsoleDisplayer', function() {
       const displayer = new ConsoleDisplayer({borderSize: 2})
       expect(displayer.display(this.world)).to.equal('   o   \n  o    \n    o  \n')
     })
+
+    it('uses cells as bounds when given', function() {
+      const displayer = new ConsoleDisplayer({
+        topLeftCell: new Cell(0, 0),
+        bottomRightCell: new Cell(1, 1),
+      })
+      expect(displayer.display(this.world)).to.equal(' o\no \n')
+    })
   })
 })
