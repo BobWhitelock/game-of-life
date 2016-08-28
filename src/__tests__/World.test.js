@@ -1,4 +1,6 @@
 
+import _ from 'lodash'
+
 import Cell from '../Cell'
 import World from '../World'
 import {sortedCells} from './utils'
@@ -70,67 +72,91 @@ describe('World', function() {
   })
 
   describe('#nextState', function() {
-    context('a living cell with no live neighbours', function() {
-      it('dies', function() {
-        const world = new World([new Cell(1, 2)])
-        expect(world.nextState().isDead(new Cell(1, 2))).to.be.true
+    before(function() {
+      this.cell = new Cell(1, 2)
+
+      this.withLivingNeighbours = function(number) {
+        this.livingNeighbours = _.take(this.cell.neighbours(), number)
+      }
+
+      this.whenCellIsAlive = function(isAlive) {
+        this.cellIsAlive = isAlive
+      }
+
+      this.world = function() {
+        const cells = this.cellIsAlive
+          ? [this.cell, ...this.livingNeighbours]
+          : this.livingNeighbours
+        return new World(cells)
+      }
+
+      this.nextWorld = function() {
+        return this.world().nextState()
+      }
+
+      this.expectCellToBeAlive = function() {
+        expect(this.nextWorld().isAlive(this.cell)).to.be.true
+      }
+
+      this.expectCellToBeDead = function() {
+        expect(this.nextWorld().isDead(this.cell)).to.be.true
+      }
+    })
+
+    context('a living cell', function() {
+      before(function() {
+        this.whenCellIsAlive(true)
+      })
+
+      it('dies when no live neighbours', function() {
+        this.withLivingNeighbours(0)
+        this.expectCellToBeDead()
+      })
+
+      it('dies when 1 live neighbour', function() {
+        this.withLivingNeighbours(1)
+        this.expectCellToBeDead()
+      })
+
+      it('lives when 2 live neighbours', function() {
+        this.withLivingNeighbours(2)
+        this.expectCellToBeAlive()
+      })
+
+      it('lives when 3 live neighbours', function() {
+        this.withLivingNeighbours(3)
+        this.expectCellToBeAlive()
+      })
+
+      it('dies when 4 live neighbours', function() {
+        this.withLivingNeighbours(4)
+        this.expectCellToBeDead()
+      })
+
+      it('dies when more than 4 live neighbours', function() {
+        this.withLivingNeighbours(8)
+        this.expectCellToBeDead()
       })
     })
 
-    context('a living cell with 1 live neighbour', function() {
-      it('dies', function() {
-        const world = new World([new Cell(1, 2), new Cell(2, 2)])
-        expect(world.nextState().isDead(new Cell(1, 2))).to.be.true
+    context('a dead cell', function() {
+      before(function() {
+        this.whenCellIsAlive(false)
       })
-    })
 
-    context('a living cell with 2 live neighbours', function() {
-      it('lives', function() {
-        const world = new World([new Cell(1, 2), new Cell(2, 2), new Cell(1, 1)])
-        expect(world.nextState().isAlive(new Cell(1, 2))).to.be.true
+      it('stays dead when 2 live neighbours', function() {
+        this.withLivingNeighbours(2)
+        this.expectCellToBeDead()
       })
-    })
 
-    context('a living cell with 3 live neighbours', function() {
-      it('lives', function() {
-        const world = new World([new Cell(1, 2), new Cell(2, 2), new Cell(1, 1), new Cell(0, 2)])
-        expect(world.nextState().isAlive(new Cell(1, 2))).to.be.true
+      it('comes alive when 3 live neighbours', function() {
+        this.withLivingNeighbours(3)
+        this.expectCellToBeAlive()
       })
-    })
 
-    context('a living cell with 4 live neighbours', function() {
-      it('dies', function() {
-        const world = new World([new Cell(1, 2), new Cell(2, 2), new Cell(1, 1), new Cell(0, 2), new Cell(0, 1)])
-        expect(world.nextState().isDead(new Cell(1, 2))).to.be.true
-      })
-    })
-
-    context('a living cell with lots of live neighbours', function() {
-      it('dies', function() {
-        const cell = new Cell(1, 2)
-        const world = new World([cell, ...cell.neighbours()])
-        expect(world.nextState().isDead(new Cell(1, 2))).to.be.true
-      })
-    })
-
-    context('a dead cell with 2 live neighbours', function() {
-      it('stays dead', function() {
-        const world = new World([new Cell(2, 2), new Cell(1, 1)])
-        expect(world.nextState().isDead(new Cell(1, 2))).to.be.true
-      })
-    })
-
-    context('a dead cell with 3 live neighbours', function() {
-      it('comes alive', function() {
-        const world = new World([new Cell(2, 2), new Cell(1, 1), new Cell(0, 2)])
-        expect(world.nextState().isAlive(new Cell(1, 2))).to.be.true
-      })
-    })
-
-    context('a dead cell with 4 live neighbours', function() {
-      it('stays dead', function() {
-        const world = new World([new Cell(2, 2), new Cell(1, 1), new Cell(0, 2), new Cell(0, 1)])
-        expect(world.nextState().isDead(new Cell(1, 2))).to.be.true
+      it('stays dead when 4 live neighbours', function() {
+        this.withLivingNeighbours(4)
+        this.expectCellToBeDead()
       })
     })
   })
