@@ -71,6 +71,34 @@ describe('World', function() {
     })
   })
 
+  describe('#topLeftCell', function() {
+    before(function() {
+      this.world = new World([new Cell(2, 3), new Cell(1, 5), new Cell(3, 1)])
+    })
+
+    it("uses leftmost x-coordinate of world's living cells as x coordinate", function() {
+      expect(this.world.topLeftCell().x).to.equal(1)
+    })
+
+    it("uses topmost y-coordinate of world's living cells as y coordinate", function() {
+      expect(this.world.topLeftCell().y).to.equal(1)
+    })
+  })
+
+  describe('#bottomRightCell', function() {
+    before(function() {
+      this.world = new World([new Cell(2, 3), new Cell(1, 5), new Cell(3, 1)])
+    })
+
+    it("uses rightmost x-coordinate of world's living cells as x coordinate", function() {
+      expect(this.world.bottomRightCell().x).to.equal(3)
+    })
+
+    it("uses bottommost y-coordinate of world's living cells as y coordinate", function() {
+      expect(this.world.bottomRightCell().y).to.equal(5)
+    })
+  })
+
   describe('#nextState', function() {
     before(function() {
       this.cell = new Cell(1, 2)

@@ -56,6 +56,26 @@ export default class World {
     ).length
   }
 
+  topLeftCell() {
+    const xCoordinate = _.min(this._xCoordinates())
+    const yCoordinate = _.min(this._yCoordinates())
+    return new Cell(xCoordinate, yCoordinate)
+  }
+
+  bottomRightCell() {
+    const xCoordinate = _.max(this._xCoordinates())
+    const yCoordinate = _.max(this._yCoordinates())
+    return new Cell(xCoordinate, yCoordinate)
+  }
+
+  _xCoordinates() {
+    return _.map(this.livingCells(), 'x')
+  }
+
+  _yCoordinates() {
+    return _.map(this.livingCells(), 'y')
+  }
+
   nextState() {
     const newCells = _.filter(
       this.frontier(),
