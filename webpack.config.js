@@ -24,4 +24,11 @@ config.module.loaders = [
 config.resolve.alias = {}
 config.resolve.alias.sinon = 'sinon/pkg/sinon.js'
 
+// Required for Enzyme.
+config.externals = {
+  'react/addons': true,
+  'react/lib/ExecutionEnvironment': true,
+  'react/lib/ReactContext': true,
+}
+
 module.exports = config
