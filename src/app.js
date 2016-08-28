@@ -9,7 +9,7 @@ let world = new World([
   new Cell(0, 2), new Cell(1, 2), new Cell(2, 2)
 ])
 
-const displayer = new ConsoleDisplayer()
+const displayer = new ConsoleDisplayer({borderSize: 10})
 
 window.setInterval(function() {
   console.log(displayer.display(world))

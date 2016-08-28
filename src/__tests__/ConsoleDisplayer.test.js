@@ -5,10 +5,18 @@ import Cell from '../Cell'
 
 describe('ConsoleDisplayer', function() {
   describe('#display', function() {
+    before(function() {
+      this.world = new World([new Cell(0, 1), new Cell(2, 2), new Cell(1, 0)])
+    })
+
     it('displays all living cells of world', function() {
-      const world = new World([new Cell(0, 1), new Cell(2, 2), new Cell(1, 0)])
       const displayer = new ConsoleDisplayer()
-      expect(displayer.display(world)).to.equal(' o \no  \n  o\n')
+      expect(displayer.display(this.world)).to.equal(' o \no  \n  o\n')
+    })
+
+    it('displays border of given size around cells', function() {
+      const displayer = new ConsoleDisplayer({borderSize: 2})
+      expect(displayer.display(this.world)).to.equal('   o   \n  o    \n    o  \n')
     })
   })
 })
