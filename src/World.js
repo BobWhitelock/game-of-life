@@ -34,4 +34,12 @@ export default class World {
       neighbour => this.isAlive(neighbour)
     ).length
   }
+
+  nextState() {
+    const newCells = _.filter(this.livingCells(), cell => {
+      const livingNeighbours = this.livingNeighbours(cell)
+      return _.includes([2, 3], livingNeighbours)
+    })
+    return new World(newCells)
+  }
 }

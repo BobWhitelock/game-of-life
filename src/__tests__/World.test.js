@@ -54,4 +54,49 @@ describe('World', function() {
       expect(livingNeighbours).to.eql(2)
     })
   })
+
+  describe('#nextState', function() {
+    context('a living cell with no live neighbours', function() {
+      it('dies', function() {
+        const world = new World([new Cell(1, 2)])
+        expect(world.nextState().isDead(new Cell(1, 2))).to.be.true
+      })
+    })
+
+    context('a living cell with 1 live neighbour', function() {
+      it('dies', function() {
+        const world = new World([new Cell(1, 2), new Cell(2, 2)])
+        expect(world.nextState().isDead(new Cell(1, 2))).to.be.true
+      })
+    })
+
+    context('a living cell with 2 live neighbours', function() {
+      it('lives', function() {
+        const world = new World([new Cell(1, 2), new Cell(2, 2), new Cell(1, 1)])
+        expect(world.nextState().isAlive(new Cell(1, 2))).to.be.true
+      })
+    })
+
+    context('a living cell with 3 live neighbours', function() {
+      it('lives', function() {
+        const world = new World([new Cell(1, 2), new Cell(2, 2), new Cell(1, 1), new Cell(0, 2)])
+        expect(world.nextState().isAlive(new Cell(1, 2))).to.be.true
+      })
+    })
+
+    context('a living cell with 4 live neighbours', function() {
+      it('dies', function() {
+        const world = new World([new Cell(1, 2), new Cell(2, 2), new Cell(1, 1), new Cell(0, 2), new Cell(0, 1)])
+        expect(world.nextState().isDead(new Cell(1, 2))).to.be.true
+      })
+    })
+
+    context('a living cell with lots of live neighbours', function() {
+      it('dies', function() {
+        const cell = new Cell(1, 2)
+        const world = new World([cell, ...cell.neighbours()])
+        expect(world.nextState().isDead(new Cell(1, 2))).to.be.true
+      })
+    })
+  })
 })
