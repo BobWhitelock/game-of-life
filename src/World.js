@@ -28,7 +28,7 @@ export default class World {
     return !this.isAlive(cell)
   }
 
-  livingNeighbours(cell) {
+  countLivingNeighboursOf(cell) {
     return _.filter(
       cell.neighbours(),
       neighbour => this.isAlive(neighbour)
@@ -45,11 +45,11 @@ export default class World {
 
   _passesStayAliveRule(cell) {
     return this.isAlive(cell) &&
-      _.includes([2, 3], this.livingNeighbours(cell))
+      _.includes([2, 3], this.countLivingNeighboursOf(cell))
   }
 
   _passesComeAliveRule(cell) {
     return this.isDead(cell) &&
-      this.livingNeighbours(cell) === 3
+      this.countLivingNeighboursOf(cell) === 3
   }
 }

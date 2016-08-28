@@ -45,12 +45,12 @@ describe('World', function() {
     })
   })
 
-  describe('#livingNeighbours', function() {
+  describe('#countLivingNeighboursOf', function() {
     it("returns the cell's number of living neighbours", function() {
       const world =
         new World([new Cell(1, 2), new Cell(2, 2), new Cell(1, 1), new Cell(4, 4)])
 
-      const livingNeighbours = world.livingNeighbours(new Cell(1, 2))
+      const livingNeighbours = world.countLivingNeighboursOf(new Cell(1, 2))
       expect(livingNeighbours).to.eql(2)
     })
   })
