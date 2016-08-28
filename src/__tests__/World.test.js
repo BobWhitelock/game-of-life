@@ -98,5 +98,26 @@ describe('World', function() {
         expect(world.nextState().isDead(new Cell(1, 2))).to.be.true
       })
     })
+
+    context('a dead cell with 2 live neighbours', function() {
+      it('stays dead', function() {
+        const world = new World([new Cell(2, 2), new Cell(1, 1)])
+        expect(world.nextState().isDead(new Cell(1, 2))).to.be.true
+      })
+    })
+
+    context('a dead cell with 3 live neighbours', function() {
+      it('comes alive', function() {
+        const world = new World([new Cell(2, 2), new Cell(1, 1), new Cell(0, 2)])
+        expect(world.nextState().isAlive(new Cell(1, 2))).to.be.true
+      })
+    })
+
+    context('a dead cell with 4 live neighbours', function() {
+      it('stays dead', function() {
+        const world = new World([new Cell(2, 2), new Cell(1, 1), new Cell(0, 2), new Cell(0, 1)])
+        expect(world.nextState().isDead(new Cell(1, 2))).to.be.true
+      })
+    })
   })
 })

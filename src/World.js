@@ -36,10 +36,20 @@ export default class World {
   }
 
   nextState() {
-    const newCells = _.filter(this.livingCells(), cell => {
-      const livingNeighbours = this.livingNeighbours(cell)
-      return _.includes([2, 3], livingNeighbours)
-    })
+    const newCells = _.filter(
+      this.frontier(),
+      cell => this._passesStayAliveRule(cell) || this._passesComeAliveRule(cell)
+    )
     return new World(newCells)
+  }
+
+  _passesStayAliveRule(cell) {
+    return this.isAlive(cell) &&
+      _.includes([2, 3], this.livingNeighbours(cell))
+  }
+
+  _passesComeAliveRule(cell) {
+    return this.isDead(cell) &&
+      this.livingNeighbours(cell) === 3
   }
 }
