@@ -2,6 +2,7 @@
 import React from 'react'
 import { mount } from 'enzyme'
 import sinon from 'sinon'
+import _ from 'lodash'
 
 import Grid from '../Grid'
 
@@ -16,6 +17,26 @@ describe('(Component) Grid', function() {
 
     this.wrapper = function() {
       return mount(<Grid {...this.props} />)
+    }
+
+    this.stubOutCanvasContext = function() {
+      const contextMethods = [
+        'beginPath',
+        'clearRect',
+        'closePath',
+        'lineTo',
+        'moveTo',
+        'stroke',
+      ]
+
+      const stubContextMethods = _(contextMethods)
+      .map(name => [name, () => null])
+      .fromPairs()
+      .value()
+
+      this.stubCanvasContext = this.sandbox.stub(stubContextMethods)
+
+      this.sandbox.stub(Grid.prototype, '_context', () => this.stubCanvasContext)
     }
   })
 
@@ -76,16 +97,7 @@ describe('(Component) Grid', function() {
       // canvas context with all needed methods and stub the Grid so this is
       // used instead, so we can assert the correct context method calls are
       // made.
-      this.stubCanvasContext = this.sandbox.stub({
-        beginPath: () => null,
-        clearRect: () => null,
-        closePath: () => null,
-        lineTo: () => null,
-        moveTo: () => null,
-        stroke: () => null,
-      })
-
-      this.sandbox.stub(Grid.prototype, '_context', () => this.stubCanvasContext)
+      this.stubOutCanvasContext()
 
       Grid.prototype.props = this.props
     })
