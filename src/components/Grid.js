@@ -23,12 +23,7 @@ class Grid extends Component {
   }
 
   componentDidMount() {
-    this._context().strokeStyle = '#000000'
-
-    this._context().beginPath()
-    this._drawColumns()
-    this._drawRows()
-    this._context().closePath()
+    this._drawGrid()
   }
 
   _canvas() {
@@ -37,6 +32,15 @@ class Grid extends Component {
 
   _context() {
     return this._canvas().getContext('2d')
+  }
+
+  _drawGrid() {
+    this._context().strokeStyle = '#000000'
+
+    this._context().beginPath()
+    this._drawColumns()
+    this._drawRows()
+    this._context().closePath()
   }
 
   _drawColumns() {

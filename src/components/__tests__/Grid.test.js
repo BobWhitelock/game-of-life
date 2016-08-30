@@ -29,27 +29,35 @@ describe('(Component) Grid', function() {
     this.sandbox.restore()
   })
 
-  it('draws lines for the columns', function() {
-    const lineBetweenSpy = this.sandbox.spy(Grid.prototype, '_drawLine')
-
-    this.wrapper()
-
-    expect(lineBetweenSpy).to.have.been.calledWith(0, 0, 0, 20)
-    expect(lineBetweenSpy).to.have.been.calledWith(10, 0, 10, 20)
-    expect(lineBetweenSpy).to.have.been.calledWith(20, 0, 20, 20)
+  it('draws the grid on componentDidMount', function() {
+    const drawGridSpy = this.sandbox.stub(Grid.prototype, '_drawGrid')
+    Grid.prototype.componentDidMount()
+    expect(drawGridSpy).to.have.been.calledOnce
   })
 
-  it('draws lines for the rows', function() {
-    const lineBetweenSpy = this.sandbox.spy(Grid.prototype, '_drawLine')
+  describe('drawing grid', function() {
+    it('draws lines for the columns', function() {
+      const lineBetweenSpy = this.sandbox.spy(Grid.prototype, '_drawLine')
 
-    this.wrapper()
+      this.wrapper()
 
-    expect(lineBetweenSpy).to.have.been.calledWith(0, 0, 20, 0)
-    expect(lineBetweenSpy).to.have.been.calledWith(0, 10, 20, 10)
-    expect(lineBetweenSpy).to.have.been.calledWith(0, 20, 20, 20)
+      expect(lineBetweenSpy).to.have.been.calledWith(0, 0, 0, 20)
+      expect(lineBetweenSpy).to.have.been.calledWith(10, 0, 10, 20)
+      expect(lineBetweenSpy).to.have.been.calledWith(20, 0, 20, 20)
+    })
+
+    it('draws lines for the rows', function() {
+      const lineBetweenSpy = this.sandbox.spy(Grid.prototype, '_drawLine')
+
+      this.wrapper()
+
+      expect(lineBetweenSpy).to.have.been.calledWith(0, 0, 20, 0)
+      expect(lineBetweenSpy).to.have.been.calledWith(0, 10, 20, 10)
+      expect(lineBetweenSpy).to.have.been.calledWith(0, 20, 20, 20)
+    })
   })
 
-  context('canvas drawing', function() {
+  describe('canvas drawing', function() {
     // TODO: Maybe we want to split out a separate component for drawing so we
     // can test this and the Grid more independently?
 
