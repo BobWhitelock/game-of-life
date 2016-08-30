@@ -83,10 +83,8 @@ class Grid extends Component {
   }
 
   _drawLine(...args) {
-    const {border} = this.props
-
     // Offset the coordinates to draw between by the border.
-    const borderShiftedArgs = _.map(args, arg => arg + border)
+    const borderShiftedArgs = _.map(args, this._borderShift.bind(this))
     const [startX, startY, endX, endY] = borderShiftedArgs
 
     this._context().moveTo(startX, startY)
@@ -94,14 +92,21 @@ class Grid extends Component {
     this._context().stroke()
   }
 
-  _fillSquare(squareX, squareY) {
-    const {border, cellSize} = this.props
+  _fillSquare(...args) {
+    const {cellSize} = this.props
 
-    const startX = squareX * cellSize + border
-    const startY = squareY * cellSize + border
+    // The actual coordinate to start drawing from is a multiple of the
+    // cellSize, offset by the border.
+    const [startX, startY] = _.map(
+      args, arg => this._borderShift(arg * cellSize)
+    )
 
     this._context().fillRect(startX, startY, cellSize, cellSize)
     this._context().stroke()
+  }
+
+  _borderShift(number) {
+    return number + this.props.border
   }
 }
 
