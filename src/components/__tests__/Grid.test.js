@@ -29,41 +29,42 @@ describe('(Component) Grid', function() {
     this.sandbox.restore()
   })
 
-  it('draws the grid on componentDidMount', function() {
-    const drawGridSpy = this.sandbox.stub(Grid.prototype, '_drawGrid')
-    Grid.prototype.componentDidMount()
-    expect(drawGridSpy).to.have.been.calledOnce
-  })
+  describe('(lifecycle methods)', function() {
+    beforeEach(function() {
+      this.drawGridSpy = this.sandbox.stub(Grid.prototype, '_drawGrid')
+    })
 
-  it('draws the grid on componentDidUpdate', function() {
-    const drawGridSpy = this.sandbox.stub(Grid.prototype, '_drawGrid')
-    Grid.prototype.componentDidUpdate()
-    expect(drawGridSpy).to.have.been.calledOnce
+    it('draws the grid on componentDidMount', function() {
+      Grid.prototype.componentDidMount()
+      expect(this.drawGridSpy).to.have.been.calledOnce
+    })
+
+    it('draws the grid on componentDidUpdate', function() {
+      Grid.prototype.componentDidUpdate()
+      expect(this.drawGridSpy).to.have.been.calledOnce
+    })
   })
 
   describe('#_drawGrid', function() {
-    it('draws lines for the columns', function() {
-      const lineBetweenSpy = this.sandbox.spy(Grid.prototype, '_drawLine')
-
+    beforeEach(function() {
+      this.drawLineSpy = this.sandbox.spy(Grid.prototype, '_drawLine')
       this.wrapper()
+    })
 
-      expect(lineBetweenSpy).to.have.been.calledWith(0, 0, 0, 20)
-      expect(lineBetweenSpy).to.have.been.calledWith(10, 0, 10, 20)
-      expect(lineBetweenSpy).to.have.been.calledWith(20, 0, 20, 20)
+    it('draws lines for the columns', function() {
+      expect(this.drawLineSpy).to.have.been.calledWith(0, 0, 0, 20)
+      expect(this.drawLineSpy).to.have.been.calledWith(10, 0, 10, 20)
+      expect(this.drawLineSpy).to.have.been.calledWith(20, 0, 20, 20)
     })
 
     it('draws lines for the rows', function() {
-      const lineBetweenSpy = this.sandbox.spy(Grid.prototype, '_drawLine')
-
-      this.wrapper()
-
-      expect(lineBetweenSpy).to.have.been.calledWith(0, 0, 20, 0)
-      expect(lineBetweenSpy).to.have.been.calledWith(0, 10, 20, 10)
-      expect(lineBetweenSpy).to.have.been.calledWith(0, 20, 20, 20)
+      expect(this.drawLineSpy).to.have.been.calledWith(0, 0, 20, 0)
+      expect(this.drawLineSpy).to.have.been.calledWith(0, 10, 20, 10)
+      expect(this.drawLineSpy).to.have.been.calledWith(0, 20, 20, 20)
     })
   })
 
-  describe('canvas drawing', function() {
+  describe('(canvas drawing)', function() {
     // TODO: Maybe we want to split out a separate component for drawing so we
     // can test this and the Grid more independently?
 
