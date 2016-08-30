@@ -35,7 +35,13 @@ describe('(Component) Grid', function() {
     expect(drawGridSpy).to.have.been.calledOnce
   })
 
-  describe('drawing grid', function() {
+  it('draws the grid on componentDidUpdate', function() {
+    const drawGridSpy = this.sandbox.stub(Grid.prototype, '_drawGrid')
+    Grid.prototype.componentDidUpdate()
+    expect(drawGridSpy).to.have.been.calledOnce
+  })
+
+  describe('#_drawGrid', function() {
     it('draws lines for the columns', function() {
       const lineBetweenSpy = this.sandbox.spy(Grid.prototype, '_drawLine')
 

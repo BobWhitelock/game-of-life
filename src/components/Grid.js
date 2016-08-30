@@ -26,6 +26,10 @@ class Grid extends Component {
     this._drawGrid()
   }
 
+  componentDidUpdate() {
+    this._drawGrid()
+  }
+
   _canvas() {
     return this.refs.canvas
   }
