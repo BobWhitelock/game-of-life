@@ -1,7 +1,9 @@
 
 import React, { Component, PropTypes } from 'react'
+import _ from 'lodash'
 
 const propTypes = {
+  border: PropTypes.number.isRequired,
   cellSize: PropTypes.number.isRequired,
   columns: PropTypes.number.isRequired,
   rows: PropTypes.number.isRequired,
@@ -65,7 +67,13 @@ class Grid extends Component {
     }
   }
 
-  _drawLine(startX, startY, endX, endY) {
+  _drawLine(...args) {
+    const {border} = this.props
+
+    // Offset the coordinates to draw between by the border.
+    const borderShiftedArgs = _.map(args, arg => arg + border)
+    const [startX, startY, endX, endY] = borderShiftedArgs
+
     this._context().moveTo(startX, startY)
     this._context().lineTo(endX, endY)
     this._context().stroke()

@@ -8,6 +8,7 @@ import Grid from '../Grid'
 describe('(Component) Grid', function() {
   before(function() {
     this.props = {
+      border: 15,
       cellSize: 10,
       columns: 2,
       rows: 2,
@@ -69,14 +70,15 @@ describe('(Component) Grid', function() {
     })
 
     describe('#_drawLine', function() {
-      it('draws a line on the canvas between the two points', function() {
+      it('draws a line on the canvas between the two points, offset by the border', function() {
+        Grid.prototype.props = this.props
         Grid.prototype._drawLine(0, 5, 10, 15)
 
         expect(this.stubCanvasContext.moveTo).to.have.been.calledOnce
-        expect(this.stubCanvasContext.moveTo).to.have.been.calledWith(0, 5)
+        expect(this.stubCanvasContext.moveTo).to.have.been.calledWith(15, 20)
 
         expect(this.stubCanvasContext.lineTo).to.have.been.calledOnce
-        expect(this.stubCanvasContext.lineTo).to.have.been.calledWith(10, 15)
+        expect(this.stubCanvasContext.lineTo).to.have.been.calledWith(25, 30)
 
         expect(this.stubCanvasContext.stroke).to.have.been.calledOnce
       })
