@@ -92,26 +92,29 @@ describe('(Component) Grid', function() {
 
     describe('#_drawLine', function() {
       it('draws a line on the canvas between the two points, offset by the border', function() {
+        const {moveTo, lineTo, stroke} = this.stubCanvasContext
+
         Grid.prototype._drawLine(0, 5, 10, 15)
 
-        expect(this.stubCanvasContext.moveTo).to.have.been.calledOnce
-        expect(this.stubCanvasContext.moveTo).to.have.been.calledWith(15, 20)
+        expect(moveTo).to.have.been.calledOnce
+        expect(moveTo).to.have.been.calledWith(15, 20)
 
-        expect(this.stubCanvasContext.lineTo).to.have.been.calledOnce
-        expect(this.stubCanvasContext.lineTo).to.have.been.calledWith(25, 30)
+        expect(lineTo).to.have.been.calledOnce
+        expect(lineTo).to.have.been.calledWith(25, 30)
 
-        expect(this.stubCanvasContext.stroke).to.have.been.calledOnce
+        expect(stroke).to.have.been.calledOnce
       })
     })
 
     describe('#_clearGrid', function() {
       it('clears the entire canvas', function() {
+        const {clearRect} = this.stubCanvasContext
         this.sandbox.stub(Grid.prototype, '_canvas', () => ({width: 20, height: 10}))
 
         Grid.prototype._clearGrid()
 
-        expect(this.stubCanvasContext.clearRect).to.have.been.calledOnce
-        expect(this.stubCanvasContext.clearRect).to.have.been.calledWith(0, 0, 20, 10)
+        expect(clearRect).to.have.been.calledOnce
+        expect(clearRect).to.have.been.calledWith(0, 0, 20, 10)
       })
     })
   })
