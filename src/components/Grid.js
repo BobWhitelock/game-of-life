@@ -93,6 +93,16 @@ class Grid extends Component {
     this._context().lineTo(endX, endY)
     this._context().stroke()
   }
+
+  _fillSquare(squareX, squareY) {
+    const {border, cellSize} = this.props
+
+    const startX = squareX * cellSize + border
+    const startY = squareY * cellSize + border
+
+    this._context().fillRect(startX, startY, cellSize, cellSize)
+    this._context().stroke()
+  }
 }
 
 Grid.propTypes = propTypes

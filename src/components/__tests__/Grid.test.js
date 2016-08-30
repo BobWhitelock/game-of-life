@@ -24,6 +24,7 @@ describe('(Component) Grid', function() {
         'beginPath',
         'clearRect',
         'closePath',
+        'fillRect',
         'lineTo',
         'moveTo',
         'stroke',
@@ -127,6 +128,19 @@ describe('(Component) Grid', function() {
 
         expect(clearRect).to.have.been.calledOnce
         expect(clearRect).to.have.been.calledWith(0, 0, 20, 10)
+      })
+    })
+
+    describe('#_fillSquare', function() {
+      it('fills in the given square of the grid', function() {
+        const {fillRect, stroke} = this.stubCanvasContext
+
+        Grid.prototype._fillSquare(1, 2)
+
+        expect(fillRect).to.have.been.calledOnce
+        expect(fillRect).to.have.been.calledWith(25, 35, 10, 10)
+
+        expect(stroke).to.have.been.calledOnce
       })
     })
   })
