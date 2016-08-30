@@ -27,6 +27,7 @@ class Grid extends Component {
   }
 
   componentDidUpdate() {
+    this._clearGrid()
     this._drawGrid()
   }
 
@@ -45,6 +46,12 @@ class Grid extends Component {
     this._drawColumns()
     this._drawRows()
     this._context().closePath()
+  }
+
+  _clearGrid() {
+    this._context().clearRect(
+      0, 0, this._canvas().width, this._canvas().height
+    )
   }
 
   _drawColumns() {

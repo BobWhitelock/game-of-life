@@ -39,8 +39,11 @@ describe('(Component) Grid', function() {
       expect(this.drawGridSpy).to.have.been.calledOnce
     })
 
-    it('draws the grid on componentDidUpdate', function() {
+    it('clears then redraws the grid on componentDidUpdate', function() {
+      const clearGridSpy = this.sandbox.stub(Grid.prototype, '_clearGrid')
+
       Grid.prototype.componentDidUpdate()
+      expect(clearGridSpy).to.have.been.calledOnce
       expect(this.drawGridSpy).to.have.been.calledOnce
     })
   })
@@ -75,6 +78,7 @@ describe('(Component) Grid', function() {
       // made.
       this.stubCanvasContext = this.sandbox.stub({
         beginPath: () => null,
+        clearRect: () => null,
         closePath: () => null,
         lineTo: () => null,
         moveTo: () => null,
@@ -82,11 +86,12 @@ describe('(Component) Grid', function() {
       })
 
       this.sandbox.stub(Grid.prototype, '_context', () => this.stubCanvasContext)
+
+      Grid.prototype.props = this.props
     })
 
     describe('#_drawLine', function() {
       it('draws a line on the canvas between the two points, offset by the border', function() {
-        Grid.prototype.props = this.props
         Grid.prototype._drawLine(0, 5, 10, 15)
 
         expect(this.stubCanvasContext.moveTo).to.have.been.calledOnce
@@ -96,6 +101,17 @@ describe('(Component) Grid', function() {
         expect(this.stubCanvasContext.lineTo).to.have.been.calledWith(25, 30)
 
         expect(this.stubCanvasContext.stroke).to.have.been.calledOnce
+      })
+    })
+
+    describe('#_clearGrid', function() {
+      it('clears the entire canvas', function() {
+        this.sandbox.stub(Grid.prototype, '_canvas', () => ({width: 20, height: 10}))
+
+        Grid.prototype._clearGrid()
+
+        expect(this.stubCanvasContext.clearRect).to.have.been.calledOnce
+        expect(this.stubCanvasContext.clearRect).to.have.been.calledWith(0, 0, 20, 10)
       })
     })
   })
