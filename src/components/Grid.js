@@ -2,8 +2,11 @@
 import React, { Component, PropTypes } from 'react'
 import _ from 'lodash'
 
+import Cell from 'Cell'
+
 const propTypes = {
   border: PropTypes.number.isRequired,
+  cells: PropTypes.arrayOf(PropTypes.instanceOf(Cell)).isRequired,
   cellSize: PropTypes.number.isRequired,
   columns: PropTypes.number.isRequired,
   rows: PropTypes.number.isRequired,
@@ -45,6 +48,7 @@ class Grid extends Component {
     this._context().beginPath()
     this._drawColumns()
     this._drawRows()
+    this._drawCells()
     this._context().closePath()
   }
 
@@ -90,6 +94,11 @@ class Grid extends Component {
     this._context().moveTo(startX, startY)
     this._context().lineTo(endX, endY)
     this._context().stroke()
+  }
+
+  _drawCells() {
+    const {cells} = this.props
+    _.map(cells, cell => this._fillSquare(cell.x, cell.y))
   }
 
   _fillSquare(...args) {

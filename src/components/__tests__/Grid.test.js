@@ -5,6 +5,7 @@ import sinon from 'sinon'
 import _ from 'lodash'
 
 import Grid from '../Grid'
+import Cell from 'Cell'
 
 describe('(Component) Grid', function() {
   before(function() {
@@ -13,6 +14,7 @@ describe('(Component) Grid', function() {
       cellSize: 10,
       columns: 2,
       rows: 2,
+      cells: [new Cell(0, 1), new Cell(1, 1)],
     }
 
     this.wrapper = function() {
@@ -73,6 +75,7 @@ describe('(Component) Grid', function() {
   describe('#_drawGrid', function() {
     beforeEach(function() {
       this.drawLineSpy = this.sandbox.spy(Grid.prototype, '_drawLine')
+      this.fillSquareSpy = this.sandbox.spy(Grid.prototype, '_fillSquare')
       this.wrapper()
     })
 
@@ -86,6 +89,11 @@ describe('(Component) Grid', function() {
       expect(this.drawLineSpy).to.have.been.calledWith(0, 0, 20, 0)
       expect(this.drawLineSpy).to.have.been.calledWith(0, 10, 20, 10)
       expect(this.drawLineSpy).to.have.been.calledWith(0, 20, 20, 20)
+    })
+
+    it('fills in squares for the cells', function() {
+      expect(this.fillSquareSpy).to.have.been.calledWith(0, 1)
+      expect(this.fillSquareSpy).to.have.been.calledWith(1, 1)
     })
   })
 
