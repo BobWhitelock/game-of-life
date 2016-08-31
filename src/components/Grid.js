@@ -98,7 +98,19 @@ class Grid extends Component {
 
   _drawCells() {
     const {cells} = this.props
-    _.map(cells, cell => this._fillSquare(cell.x, cell.y))
+
+    _.forEach(cells, cell => {
+      if (this._isWithinGrid(cell)) {
+        this._fillSquare(cell.x, cell.y)
+      }
+    })
+  }
+
+  _isWithinGrid(cell) {
+    const {columns, rows} = this.props
+    const xWithin = cell.x < columns && cell.x >= 0
+    const yWithin = cell.y < rows && cell.y >= 0
+    return xWithin && yWithin
   }
 
   _fillSquare(...args) {

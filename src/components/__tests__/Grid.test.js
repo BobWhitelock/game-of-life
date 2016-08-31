@@ -13,8 +13,17 @@ describe('(Component) Grid', function() {
       border: 15,
       cellSize: 10,
       columns: 2,
-      rows: 2,
-      cells: [new Cell(0, 1), new Cell(1, 1)],
+      rows: 3,
+      cells: [
+        // Cells within the Grid.
+        new Cell(0, 1),
+        new Cell(1, 1),
+
+        // Cells outside the Grid.
+        new Cell(2, 1),
+        new Cell(1, 3),
+        new Cell(-1, -1),
+      ],
     }
 
     this.wrapper = function() {
@@ -80,9 +89,9 @@ describe('(Component) Grid', function() {
     })
 
     it('draws lines for the columns', function() {
-      expect(this.drawLineSpy).to.have.been.calledWith(0, 0, 0, 20)
-      expect(this.drawLineSpy).to.have.been.calledWith(10, 0, 10, 20)
-      expect(this.drawLineSpy).to.have.been.calledWith(20, 0, 20, 20)
+      expect(this.drawLineSpy).to.have.been.calledWith(0, 0, 0, 30)
+      expect(this.drawLineSpy).to.have.been.calledWith(10, 0, 10, 30)
+      expect(this.drawLineSpy).to.have.been.calledWith(20, 0, 20, 30)
     })
 
     it('draws lines for the rows', function() {
@@ -94,6 +103,12 @@ describe('(Component) Grid', function() {
     it('fills in squares for the cells', function() {
       expect(this.fillSquareSpy).to.have.been.calledWith(0, 1)
       expect(this.fillSquareSpy).to.have.been.calledWith(1, 1)
+    })
+
+    it('does not draw squares for cells outside the grid', function() {
+      expect(this.fillSquareSpy).to.not.have.been.calledWith(2, 1)
+      expect(this.fillSquareSpy).to.not.have.been.calledWith(1, 3)
+      expect(this.fillSquareSpy).to.not.have.been.calledWith(-1, -1)
     })
   })
 
