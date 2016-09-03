@@ -2,6 +2,7 @@
 import React, {Component} from 'react'
 
 import Grid from 'components/Grid'
+import CanvasGridDrawer from 'components/Grid/CanvasGridDrawer'
 import World from 'World'
 import Cell from 'Cell'
 
@@ -12,6 +13,7 @@ class App extends Component {
   constructor() {
     super()
     this.state = {world: this._initialWorld()}
+    this._gridDrawer = new CanvasGridDrawer()
   }
 
   render() {
@@ -23,6 +25,7 @@ class App extends Component {
           cells={this.state.world.livingCells()}
           columns={20}
           rows={20}
+          gridDrawer={this._gridDrawer}
         />
       </div>
     )
