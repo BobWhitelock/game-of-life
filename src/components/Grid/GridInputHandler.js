@@ -4,6 +4,7 @@ import Cell from 'Cell'
 export default class GridInputHandler {
   constructor(args) {
     this._canvas = args.canvas
+    this._cells = args.cells
     this._border = args.border
     this._cellSize = args.cellSize
   }
@@ -17,6 +18,7 @@ export default class GridInputHandler {
     const cellX = Math.floor(gridX / this._cellSize)
     const cellY = Math.floor(gridY / this._cellSize)
 
-    return new Cell(cellX, cellY)
+    const clickedCell = new Cell(cellX, cellY)
+    this._cells.push(clickedCell)
   }
 }
